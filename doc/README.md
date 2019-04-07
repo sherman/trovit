@@ -13,7 +13,7 @@ Please provide the following in your answers:
 
 ## Solution 1
 
-The strategy. 
+### The strategy 
 
 To make any deduplication we should find a _unique key_.
 So, I started analyzing data to find the keys are most _representative_.
@@ -30,5 +30,9 @@ The sample output:
 {"key":{"make":"Volvo","model":"S60","year":2013,"mileage":1},"uniqueKeys":["Qg/kBiqm/bfE/8lot2nL1A==","00pC/TAa8zrxVIQqHeFTmA==","Dr98KglXYIjMPx+JUEXMEw=="]}
 ```
 
-So, the result has fewer rows up to 20%, than the original dataset. 
+So, the result has fewer rows up to 20%, than the original dataset.
+
+### Technology stack
+
+A spark-based job written on top of plain-old rdd API (I know that is far from optimal performance, but just enough for the test).
 

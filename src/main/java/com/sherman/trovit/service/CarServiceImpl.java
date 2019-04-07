@@ -102,7 +102,5 @@ public class CarServiceImpl implements CarService, Serializable {
             .write()
             .mode(SaveMode.Overwrite)
             .json(settings.getResultPath().getAbsolutePath());
-
-        return 0;
     }
 }
