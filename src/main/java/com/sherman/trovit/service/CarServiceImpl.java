@@ -57,17 +57,24 @@ public class CarServiceImpl implements CarService, Serializable {
         cars.printSchema();
 
         JavaRDD<Row> deduplicated = cars
+            .select(
+                col("uniqueId"),
+                col("make"),
+                col("model"),
+                col("year"),
+                col("mileage")
+            )
             .filter(col("make").isNotNull()) // drop appox. 13102 elts
             .repartition(col("uniqueId")) // required for uniform shuffling and to guarantee that all elements with given uniqueId are processed in a single partition.
             .javaRDD()
             .groupBy(
                 (Function<Row, CarAdUniqueKey>) row -> {
                     CarAdUniqueKey key = new CarAdUniqueKey();
-                    key.setUniqueId(row.getAs("uniqueId"));
-                    key.setMake(row.getAs("make"));
-                    key.setModel(row.getAs("model"));
-                    key.setYear(Integer.valueOf(row.getAs("year").toString()));
-                    key.setMileage(Integer.valueOf(row.getAs("mileage").toString()));
+                    key.setUniqueId(row.getString(0));
+                    key.setMake(row.getString(1));
+                    key.setModel(row.getString(2));
+                    key.setYear((int)row.getLong(3));
+                    key.setMileage((int)row.getLong(4));
                     return key;
                 }
             )
